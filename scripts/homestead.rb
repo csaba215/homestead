@@ -115,6 +115,7 @@ class Homestead
       libvirt.memorybacking :access, :mode => 'shared'
       libvirt.nic_model_type = "virtio"
       libvirt.driver = "kvm"
+      libvirt.qemu_use_session = false
     end
 
     # Standardize Ports Naming Schema
@@ -202,6 +203,7 @@ class Homestead
 
           if ENV['VAGRANT_DEFAULT_PROVIDER'] == 'libvirt'
             folder['type'] = 'virtiofs'
+            config.vm.synced_folder "./", "/vagrant", type: "virtiofs"
           end
 
           if folder['type'] == 'nfs'
