@@ -103,6 +103,19 @@ class Homestead
       v.memory = settings['memory'] ||= 2048
       v.cpus = settings['cpus'] ||= 1
     end
+    
+    # Configure libvirt settings
+    config.vm.provider "libvirt" do |libvirt|
+      libvirt.memory = settings["memory"] ||= "2048"
+      libvirt.cpu_model = settings["cpus"] ||= "1"
+      libvirt.nested = "true"
+      libvirt.disk_bus = "virtio"
+      libvirt.machine_type = "q35"
+      libvirt.disk_driver :cache => "none"
+      libvirt.memorybacking :access, :mode => 'shared'
+      libvirt.nic_model_type = "virtio"
+      libvirt.driver = "kvm"
+    end
 
     # Standardize Ports Naming Schema
     if settings.has_key?('ports')
